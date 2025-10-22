@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Video Reasoning Without Training">
+  <meta name="keywords" content="Video Reasoning, LMMs, MultimodalAI, Efficiency">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Reasoning Without Training</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://deepaksridhar.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Video Reasoning Without Training</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://deepaksridhar.github.io">Deepak Sridhar</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="http://www.svcl.ucsd.edu/~nuno/">Nuno Vasconcelos</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of California, San Diego</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./static/pdf/vreason.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2510.17045"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/DeepakSridhar/vreason"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Presentation Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2510.17045"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Talk</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce V-Reason, a method that tunes the behavior of Large Multimodal Models during inference using entropy-based optimization, improving video reasoning accuracy and efficiency without reinforcement learning or supervised fine-tuning. 
+          </p>
+          <p>
+            Video reasoning using Large Multimodal Models (LMMs) relies on costly reinforcement learning (RL) and verbose chain-of-thought, resulting in substantial computational overhead during both training and inference. Moreover, the mechanisms that control the thinking process in these reasoning models are very limited. In this paper, using entropy of the model's output as a signal, we discover that the high-quality models go through a series of micro-explorations and micro-exploitations which keep the reasoning process grounded (i.e., avoid excessive randomness while the model is exploring or thinking through an answer). We further observe that once this "thinking" process is over, more accurate models demonstrate a better convergence by reducing the entropy significantly via a final exploitation phase (i.e., a more certain convergence towards a solution trajectory). We then use these novel, theoretically-grounded insights to tune the model's behavior directly at inference, without using any RL or supervised fine-tuning. Specifically, during inference, our proposed approach called V-Reason (Video-Reason) adapts the value cache of the LMM via a few optimization steps on a small, trainable controller using an entropy-based objective, i.e., no supervision from any dataset or RL is necessary. This tuning improves the model's micro-exploration and exploitation behavior during inference. Our experiments show that our proposed method achieves significant improvements over the base instruction-tuned models across several video reasoning datasets, narrowing the gap with RL-trained models to within 0.6% average accuracy without any training, while offering massive efficiency benefits: output tokens are reduced by 58.6% compared to the RL model.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Teaser. -->
+    <div class="columns is-centered">
+      <!-- Editing. -->
+      <div class="column">
+        <h2 class="title is-3">Entropy of Output Token Distribution. </h2>
+            <div class="columns is-centered">
+              <div class="column content">
+                <p>
+                  We see clear macro-exploration and macro-exploitation phases with bigger, more
+                  accurate models showing lower overall entropy (lower and later peak, followed by a lower final entropy during
+                  the macro-exploitation). We use these key insights to adapt a model’s behavior in a training-free way using an
+                  inference-time optimization technique.
+                </p>
+                <img src="./static/images/teaser-1.png"
+                 class="interpolation-image"
+                 alt="Overview."/>
+                <p>
+                  Applying V-Reason on Qwen2.5-VL-7B-Instruct makes its entropy
+                  behave more similarly to the larger or the RL-trained Video-R1-7B model.
+                </p>
+                <img src="./static/images/teaser-2.png"
+                 class="interpolation-image"
+                 alt="V-reason."/>
+                <p>
+                  Our method achieves higher
+                  accuracy than the base LMM and bridges the accuracy gap with the RL model.
+                </p>
+                <img src="./static/images/teaser-3.png"
+                 class="interpolation-image"
+                 alt="V-reason."/>
+                <p>
+                  V-Reason also significantly
+                  reduces the total output tokens compared to all models due to a dedicated entropy minimization phase.
+                </p>
+                <img src="./static/images/teaser-4.png"
+                 class="interpolation-image"
+                 alt="V-reason."/>
+                <!-- <iframe src="./static/images/teaser-1.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Image synthesis by Prompt Sliders1."></iframe>
+                <iframe src="./static/images/teaser-2.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Image synthesis by Prompt Sliders2."></iframe> -->
+              </div>
+
+        </div>
+      </div>
+    </div>
+
+  <div class="container is-max-desktop">
+    <!-- Teaser. -->
+    <div class="columns is-centered">
+      <!-- Editing. -->
+      <div class="column">
+        <h2 class="title is-3">V-Reason framework</h2>
+            <div class="columns is-centered">
+              <div class="column content">
+                <p>
+                  Proposed approach for enhancing video reasoning in a training-free manner using entropy-based
+                  objective. V-Reason uses an inference optimization method to modulate the values cache of the last decoder
+                  layer with an entropy switching loss (Lswitch) to further enhance the video reasoning performance.
+                </p>
+                <img src="./static/images/vreason-arch.jpg"
+                 class="interpolation-image"
+                 alt="V-Reason framework."/>
+                <!-- <embed src="./static/images/arch.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Prompt Slider framework."/>  -->
+              </div>
+
+        </div>
+      </div>
+    </div>
+
+  <div class="container is-max-desktop">
+    <!-- Teaser. -->
+    <div class="columns is-centered">
+      <!-- Editing. -->
+      <div class="column">
+        <h2 class="title is-3">Qualitative result</h2>
+            <div class="columns is-centered">
+              <div class="column content">
+                <p>
+                  An example output and comparison with the baseline Qwen-2.5-VL-7B together
+                  with its entropy plot shown on the top right. The black arrow in the entropy plot denotes the shift in the EMA
+                  peak demonstrating longer exploration for V-Reason compared to the baseline.
+                </p>
+                <img src="./static/images/fig4b-comparison-video-r1.png"
+                 class="interpolation-image"
+                 alt="Comparison."/>
+                <!-- <embed src="./static/images/comparison-1.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Comparison."/> -->
+              </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="columns is-centered"> -->
+      <!-- Editing. -->
+      <!-- <div class="column">
+        <h2 class="title is-3">Erasing concepts with Prompt Sliders. </h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              Erasing concepts from pretrained diffusion models using Prompt Sliders. The prompts used to generate the image are shown on top of each image.
+            </p>       
+            <img src="./static/images/erasing-1.png"
+                 class="interpolation-image"
+                 alt="Erasing."/>      -->
+            <!-- <embed src="./static/images/erasing-1.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Erasing."/> -->
+          <!-- </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!--/ Matting. -->
+
+    <!-- <div class="columns is-centered"> -->
+      <!-- Editing. -->
+      <!-- <div class="column">
+        <h2 class="title is-3">Transferring the trained prompt sliders from SD-XL to SD v1.5 model. </h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              The corresponding prompts for the images in the figure from left to right in the top row, and from left to right in the bottom row are as follows. {"A photo of a person", "A man with a thick, beard, giving a charming smile", "A bride getting ready for her wedding day", "A cozy living room"}.
+            </p>
+            <img src="./static/images/sd-15-transfer.png"
+                 class="interpolation-image"
+                 alt="Transfer SD15."/> -->
+            <!-- <embed src="./static/images/sd-15-transfer.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Transfer SD15."/> -->
+            
+          <!-- </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!--/ Matting. -->
+
+    <!-- <div class="columns is-centered"> -->
+      <!-- Editing. -->
+      <!-- <div class="column">
+        <h2 class="title is-3">Composition of multiple concepts. </h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              The input prompt for all the images are "A photo of a person" followed by the concept tokens. Concepts are appended to the prompt sequentially and is depicted in the figure from left to right in the top row, then continues from left to right in the bottom row.
+            </p>
+            <img src="./static/images/composition-1.png"
+                 class="interpolation-image"
+                 alt="Composition."/> -->
+            <!-- <embed src="./static/images/composition-1.pdf"
+                class="interpolation-image"
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                alt="Transfer SD15."/> -->
+          <!-- </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!--/ editing. -->
+
+          
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{sridhar2025vreason,
+      title={Video Reasoning Without Training}, 
+      author={Deepak Sridhar* and Kartikeya Bhardwaj* and Jeya Pradha Jeyaraj and Nuno Vasconcelos and Ankita Nayak and Harris Teague},
+      year={2025},
+      eprint={2510.17045},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2510.17045}, 
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a> -->
+      <a class="icon-link" href="https://github.com/DeepakSridhar" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies
+                                          </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
