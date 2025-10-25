@@ -154,6 +154,9 @@
           <p>
             We introduce V-Reason, a method that tunes the behavior of Large Multimodal Models during inference using entropy-based optimization, improving video reasoning accuracy and efficiency without reinforcement learning or supervised fine-tuning. 
           </p>
+          <img src="./static/images/comparison.gif"
+          class="interpolation-image"
+          alt="V-reason."/>
           <p>
             Video reasoning using Large Multimodal Models (LMMs) relies on costly reinforcement learning (RL) and verbose chain-of-thought, resulting in substantial computational overhead during both training and inference. Moreover, the mechanisms that control the thinking process in these reasoning models are very limited. In this paper, using entropy of the model's output as a signal, we discover that the high-quality models go through a series of micro-explorations and micro-exploitations which keep the reasoning process grounded (i.e., avoid excessive randomness while the model is exploring or thinking through an answer). We further observe that once this "thinking" process is over, more accurate models demonstrate a better convergence by reducing the entropy significantly via a final exploitation phase (i.e., a more certain convergence towards a solution trajectory). We then use these novel, theoretically-grounded insights to tune the model's behavior directly at inference, without using any RL or supervised fine-tuning. Specifically, during inference, our proposed approach called V-Reason (Video-Reason) adapts the value cache of the LMM via a few optimization steps on a small, trainable controller using an entropy-based objective, i.e., no supervision from any dataset or RL is necessary. This tuning improves the model's micro-exploration and exploitation behavior during inference. Our experiments show that our proposed method achieves significant improvements over the base instruction-tuned models across several video reasoning datasets, narrowing the gap with RL-trained models to within 0.6% average accuracy without any training, while offering massive efficiency benefits: output tokens are reduced by 58.6% compared to the RL model.
           </p>
@@ -173,9 +176,7 @@
       </div>
     </div> -->
     <!--/ Paper video. -->
-    <img src="./static/images/comparison.gif"
-                 class="interpolation-image"
-                 alt="V-reason."/>
+
   </div>
 </section>
 
@@ -186,7 +187,7 @@
     <div class="columns is-centered">
       <!-- Editing. -->
       <div class="column">
-        <h2 class="title is-3">Entropy of Output Token Distribution. </h2>
+        <h2 class="title is-3">Entropy of Output Token Distribution</h2>
             <div class="columns is-centered">
               <div class="column content">
                 <p>
